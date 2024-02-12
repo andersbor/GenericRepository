@@ -1,6 +1,6 @@
 ﻿namespace GenericRepository
 {
-    public class Repository<T> where T: IIdable
+    public class Repository<T> : IRepository<T> where T : IIdable
     {
         private readonly List<T> data = new();
         private int nextId = 1;

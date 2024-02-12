@@ -12,12 +12,13 @@ namespace GenericRepository.Tests
     [TestClass()]
     public class RepositoryTests
     {
-        private Repository<Book> repository;
+        private IRepository<Book> repository;
 
         [TestInitialize]
         public void Initialize()
         {
-            repository = new();
+            //repository = new Repository<Book>();
+            repository = new RepositoryDictionary<Book>();
             repository.Add(new Book { Title = "Book1", Price = 100 });
             repository.Add(new Book { Title = "Book2", Price = 200 });
             repository.Add(new Book { Title = "Book3", Price = 300 });
