@@ -41,7 +41,7 @@
 
         public T? Update(int id, UpdateDelegate<T> updateDelegate, T values)
         {
-            if (data.TryGetValue(id, out T existing))
+            if (data.TryGetValue(id, out T? existing))
             {
                 updateDelegate.Invoke(existing, values);
                 return existing;

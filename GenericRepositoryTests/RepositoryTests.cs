@@ -63,12 +63,12 @@ namespace GenericRepository.Tests
         public void UpdateTest()
         {
             Book values = new() { Price = 500 };
-            Book? updatedBook = repository.Update(1, (existing, data) => { existing.Price = data.Price; }, values);
+            UpdateDelegate<Book> updateDelegate = (existing, data) => { existing.Price = data.Price; };
+            Book? updatedBook = repository.Update(1, updateDelegate, values);
             Assert.IsNotNull(updatedBook);
             Assert.AreEqual(500, updatedBook.Price);
             Assert.AreEqual(500, repository.GetById(1)?.Price);
             Assert.AreEqual("Book3", updatedBook.Title);
-
         }   
     }
 }
