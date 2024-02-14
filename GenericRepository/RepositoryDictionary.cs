@@ -18,24 +18,44 @@ namespace GenericRepository
             return item;
         }
 
-        public T? Get(int id)
+        public T? GetById(int id)
         {
             if (data.ContainsKey(id))
             {
                 return data[id];
             }
-            return default(T);
+            return default;
         }
 
-        public List<T> GetAll()
+        public List<T> Get(Predicate<T>? filter = null, IComparer<T>? comparer = null)
         {
-            return data.Values.ToList();
+            List<T> result = new(data.Values);
+            if (filter != null)
+            {
+                result = result.Where(x => filter(x)).ToList();
+            }
+            if (comparer != null)
+                result.Sort(comparer);
+            return result;
         }
 
         public T? Remove(int id)
         {
             data.Remove(id, out T? item);
             return item;
+        }
+
+       
+
+        public T? Update(int id, UpdateDelegate<T> updateDelegate, T values)
+        {
+            if (data.ContainsKey(id))
+            {
+                T existing = data[id];
+                updateDelegate.Invoke(existing, values);
+                return existing;
+            }
+            return default;
         }
     }
 }
