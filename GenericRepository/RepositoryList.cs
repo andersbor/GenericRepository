@@ -44,9 +44,7 @@
             T? item = data.FirstOrDefault(d => d.Id == id);
             if (item != null)
             {
-                T existing = data[id];
-                updateDelegate.Invoke(existing, values);
-                return existing;
+                updateDelegate.Invoke(item, values);
             }
             return item;
         }

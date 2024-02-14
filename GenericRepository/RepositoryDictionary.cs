@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GenericRepository
+﻿namespace GenericRepository
 {
     public class RepositoryDictionary<T> : IRepository<T> where T : IIdable
     {
@@ -45,13 +39,10 @@ namespace GenericRepository
             return item;
         }
 
-       
-
         public T? Update(int id, UpdateDelegate<T> updateDelegate, T values)
         {
-            if (data.ContainsKey(id))
+            if (data.TryGetValue(id, out T existing))
             {
-                T existing = data[id];
                 updateDelegate.Invoke(existing, values);
                 return existing;
             }

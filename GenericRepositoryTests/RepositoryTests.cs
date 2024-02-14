@@ -1,10 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using GenericRepository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GenericRepositoryTests;
 
 namespace GenericRepository.Tests
@@ -17,8 +11,8 @@ namespace GenericRepository.Tests
         [TestInitialize]
         public void Initialize()
         {
-            repository = new RepositoryList<Book>();
-            //repository = new RepositoryDictionary<Book>();
+            //repository = new RepositoryList<Book>();
+            repository = new RepositoryDictionary<Book>();
             repository.Add(new Book { Title = "Book3", Price = 100 });
             repository.Add(new Book { Title = "Book2", Price = 200 });
             repository.Add(new Book { Title = "Book1", Price = 300 });
@@ -68,9 +62,13 @@ namespace GenericRepository.Tests
         [TestMethod()]  
         public void UpdateTest()
         {
-            Book values = new() { Title = "ABC", Price = 500 };
-            Book? existing = repository.Update(1, (existing, data) => { existing.Price = data.Price; }, values);
-            Assert.AreEqual(500, existing?.Price);
+            Book values = new() { Price = 500 };
+            Book? updatedBook = repository.Update(1, (existing, data) => { existing.Price = data.Price; }, values);
+            Assert.IsNotNull(updatedBook);
+            Assert.AreEqual(500, updatedBook.Price);
+            Assert.AreEqual(500, repository.GetById(1)?.Price);
+            Assert.AreEqual("Book3", updatedBook.Title);
+
         }   
     }
 }
